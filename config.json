@@ -1,0 +1,17 @@
+{
+    "time": {
+        "second": 1,
+        "minute": 60,
+        "hour": 3600
+    },
+    "metric": {
+        "decimeter": 0.1,
+        "meter": 1,
+        "footballfield": 102,
+        "kilometer": 1000
+    },
+    "imperial": {
+        "inch": 1,
+        "feet": 12
+    }
+}
