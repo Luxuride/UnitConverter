@@ -13,5 +13,9 @@
     "imperial": {
         "inch": 1,
         "feet": 12
-    }
+    },
+    "metrictoimperial": {
+        "meter": 1,
+        "inch": 0.0254
+    },
 }

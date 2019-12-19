@@ -12,16 +12,19 @@ namespace UnitConverter
             _config = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, double>>>(config);
         }
         public double ConvertSimple(string from, string to, double number){
+            string advancedType;
+            
+            
             string fromType = _config.Where(x => x.Value.ContainsKey(from)).First().Key;
             string toType = _config.Where(x => x.Value.ContainsKey(to)).First().Key;
-            if(fromType == toType) {
+            if (_config.ContainsKey($"{fromType}to{toType}") || _config.ContainsKey($"{toType}to{fromType}")){
+                advancedType = _config.Where(x => x.Key == $"{fromType}to{toType}" || x.Key == $"{toType}to{fromType}").First().Key;
+                string fromBasic = _config[advancedType].Where(x => _config[fromType].ContainsKey(x.Key)).First().Key;
+                string toBasic = _config[advancedType].Where(x => _config[toType].ContainsKey(x.Key)).First().Key;
+                return ConvertSimple(toBasic, to, ConvertSimple(from, fromBasic, number)) * _config[advancedType][fromBasic] / _config[advancedType][toBasic];
+            }
+            else if(fromType == toType) {
                 return number / _config[toType][to] * _config[fromType][from];
-            } 
-            else if (fromType == "metric" && toType == "imperial") {
-                return ConvertSimple("inch", to, ConvertSimple(from,"meter", number) / 0.0254);
-            } 
-            else if (fromType == "imperial" && toType == "metric") {
-                return ConvertSimple("meter", to, ConvertSimple(from, "inch", number) * 0.0254);
             }
             throw new ArgumentException($"Can't convert {from} to {to}");
         }
