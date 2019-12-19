@@ -19,7 +19,7 @@ namespace UnitConverter
                 advancedType = _config.Where(x => x.Key == $"{fromType}to{toType}" || x.Key == $"{toType}to{fromType}").First().Key;
                 string fromBasic = _config[advancedType].Where(x => _config[fromType].ContainsKey(x.Key)).First().Key;
                 string toBasic = _config[advancedType].Where(x => _config[toType].ContainsKey(x.Key)).First().Key;
-                return Convert(toBasic, to, Convert(from, fromBasic, number)) * _config[advancedType][fromBasic] / _config[advancedType][toBasic];
+                return Convert(toBasic, to, Convert(from, fromBasic, number)) * _config[advancedType][toBasic] / _config[advancedType][fromBasic];
             }
             else if(fromType == toType) {
                 return number / _config[toType][to] * _config[fromType][from];
