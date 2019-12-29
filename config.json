@@ -19,10 +19,12 @@
         "meter": 0.0254
     },
     "ampere": {
+        "miliampere": 0.001,
         "ampere": 1
     },
     "coulomb": {
-        "coulomb": 1
+        "coulomb": 1,
+        "kilocoulomb": 1000
     },
     "amperecounttocoulombcountpertime": {
         "ampere": 1,

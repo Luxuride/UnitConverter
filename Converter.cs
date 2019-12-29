@@ -62,8 +62,8 @@ namespace UnitConverter
                         string toBasicPer = _config[advancedType].First(x =>
                             x.Key.Split("countper").Length == 2 &&
                             _config[toTypePer].ContainsKey(x.Key.Split("countper")[1])).Key.Split("countper")[1];
-                        return Convert(to.Split("countper")[0], toBasic, 1) *
-                               Convert(to.Split("countper")[1], toBasicPer, 1) * Convert(from, fromBasic, 1) * number;
+                        return Convert(from, fromBasic, 1) / Convert(to.Split("countper")[0], toBasic, 1) *
+                               Convert(to.Split("countper")[1], toBasicPer, 1)  * number;
                     }
                 }
                 //Basic conversion
