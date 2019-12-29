@@ -17,5 +17,15 @@
     "metrictoimperial": {
         "inch": 1,
         "meter": 0.0254
+    },
+    "ampere": {
+        "ampere": 1
+    },
+    "coulombpersecond": {
+        "coulombpersecond": 1
+    },
+    "amperetocoulombpersecond": {
+        "ampere": 1,
+        "coulombpersecond": 1
     }
 }

@@ -22,7 +22,13 @@ namespace UnitConverter
                             var values1 = values[1].Split('/');
                             var values2 = values[2].Split('/');
                             Console.WriteLine($"{values[0]} {values[1]} -> {converter.Convert(values1[0], values2[0], values1[1], values2[1], number)} {values[2]}");
-                        } 
+                        } else if(values[1].Split('/').Length == 2) {
+                            var anotherValues = values[1].Split('/');
+                            Console.WriteLine($"{values[0]} {values[1]} -> {converter.Convert(anotherValues[0], anotherValues[1], values[2], number, 0)} {values[2]}");
+                        } else if(values[2].Split('/').Length == 2) {
+                            var anotherValues = values[2].Split('/');
+                            Console.WriteLine($"{values[0]} {values[1]} -> {converter.Convert(values[1], anotherValues[0], anotherValues[1], number, 1)} {values[2]}");
+                        }
                         // Convert simple value
                         else {
                             Console.WriteLine($"{values[0]} {values[1]} -> {converter.Convert(values[1], values[2], number)} {values[2]}");
