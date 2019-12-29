@@ -14,60 +14,84 @@ namespace UnitConverter
         // Core of converter
         // Does basic convert and conversion between units of different type
         public double Convert(string from, string to, double number){
-            //try {
+            try
+            {
                 //Get Unit types
                 string fromType = "";
                 string fromTypePer = "";
-                if(from.Split("countper").Length == 2) {
+                if (from.Split("countper").Length == 2)
+                {
                     fromType = _config.First(x => x.Value.ContainsKey(from.Split("countper")[0])).Key;
                     fromTypePer = _config.First(x => x.Value.ContainsKey(from.Split("countper")[1])).Key;
-                } else {
+                }
+                else
+                {
                     fromType = _config.First(x => x.Value.ContainsKey(from)).Key;
                 }
+
                 string toType = "";
                 string toTypePer = "";
-                if(to.Split("countper").Length == 2) {
+                if (to.Split("countper").Length == 2)
+                {
                     toType = _config.First(x => x.Value.ContainsKey(to.Split("countper")[0])).Key;
                     toTypePer = _config.First(x => x.Value.ContainsKey(to.Split("countper")[1])).Key;
-                } else {
+                }
+                else
+                {
                     toType = _config.First(x => x.Value.ContainsKey(to)).Key;
                 }
+
                 //Advanced unit conversion
-                if (_config.ContainsKey($"{fromType}countto{toType}") || _config.ContainsKey($"{toType}countto{fromType}")){
+                if (_config.ContainsKey($"{fromType}countto{toType}") ||
+                    _config.ContainsKey($"{toType}countto{fromType}"))
+                {
                     //Get advanced convert unit type
-                    string advancedType = _config.First(x => x.Key == $"{fromType}to{toType}" || x.Key == $"{toType}to{fromType}").Key;
+                    string advancedType = _config.First(x =>
+                        x.Key == $"{fromType}countto{toType}" || x.Key == $"{toType}countto{fromType}").Key;
                     //Get Units
                     string fromBasic = _config[advancedType].First(x => _config[fromType].ContainsKey(x.Key)).Key;
                     string toBasic = _config[advancedType].First(x => _config[toType].ContainsKey(x.Key)).Key;
-                    return Convert(toBasic, to, Convert(from, fromBasic, number)) * _config[advancedType][toBasic] / _config[advancedType][fromBasic];
-                } 
+                    return Convert(toBasic, to, Convert(from, fromBasic, number)) * _config[advancedType][toBasic] /
+                           _config[advancedType][fromBasic];
+                }
                 //Convert from Unit to Unit/Unit or Unit/Unit to Unit
-                else if (_config.ContainsKey($"{fromType}countto{toType}countper{toTypePer}") || _config.ContainsKey($"{toType}countto{fromType}countper{fromTypePer}")) {
-                    string advancedType = _config.First(x => x.Key == $"{fromType}countto{toType}countper{toTypePer}" || x.Key ==$"{toType}countto{fromType}countper{fromTypePer}").Key;
-                    string fromBasic = _config[advancedType].First(x => _config[fromType].ContainsKey(x.Key.Split("countper")[0])).Key.Split("countper")[0];
-                    string toBasic = _config[advancedType].First(x => _config[toType].ContainsKey(x.Key.Split("countper")[0])).Key.Split("countper")[0];
-                    if(fromTypePer != "") {
-                        string fromBasicPer = _config[advancedType].First(x => x.Key.Split("countper").Length == 2 && _config[fromTypePer].ContainsKey(x.Key.Split("countper")[1])).Key.Split("countper")[1];
-                        return Convert(toBasic, to, Convert(from.Split("countper")[0], fromBasic, 1) / Convert(from.Split("countper")[1], fromBasicPer, 1) * number);
+                else if (_config.ContainsKey($"{fromType}countto{toType}countper{toTypePer}") ||
+                         _config.ContainsKey($"{toType}countto{fromType}countper{fromTypePer}"))
+                {
+                    string advancedType = _config.First(x =>
+                        x.Key == $"{fromType}countto{toType}countper{toTypePer}" ||
+                        x.Key == $"{toType}countto{fromType}countper{fromTypePer}").Key;
+                    string fromBasic = _config[advancedType]
+                        .First(x => _config[fromType].ContainsKey(x.Key.Split("countper")[0])).Key.Split("countper")[0];
+                    string toBasic = _config[advancedType]
+                        .First(x => _config[toType].ContainsKey(x.Key.Split("countper")[0])).Key.Split("countper")[0];
+                    if (fromTypePer != "")
+                    {
+                        string fromBasicPer = _config[advancedType].First(x =>
+                            x.Key.Split("countper").Length == 2 &&
+                            _config[fromTypePer].ContainsKey(x.Key.Split("countper")[1])).Key.Split("countper")[1];
+                        return Convert(toBasic, to,
+                            Convert(from.Split("countper")[0], fromBasic, 1) /
+                            Convert(from.Split("countper")[1], fromBasicPer, 1) * number);
                     }
-                    if(toTypePer != "") {
-                        string toBasicPer = _config[advancedType].First(x => x.Key.Split("countper").Length == 2 && _config[toTypePer].ContainsKey(x.Key.Split("countper")[1])).Key.Split("countper")[1];
+
+                    if (toTypePer != "")
+                    {
+                        string toBasicPer = _config[advancedType].First(x =>
+                            x.Key.Split("countper").Length == 2 &&
+                            _config[toTypePer].ContainsKey(x.Key.Split("countper")[1])).Key.Split("countper")[1];
                         return Convert(to.Split("countper")[0], toBasic, 1) *
                                Convert(to.Split("countper")[1], toBasicPer, 1) * Convert(from, fromBasic, 1) * number;
                     }
                 }
                 //Basic conversion
-                else if(fromType == toType) {
+                else if (fromType == toType)
+                {
                     return number / _config[toType][to] * _config[fromType][from];
                 }
-            //} catch(Exception ex) {
-                //throw;
-            //}
-            throw new ArgumentException();
-            // finally {
-            //     //If there is no conversion path return not convertable message
-            //     throw new ArgumentException($"Can't convert {from} to {to}");
-            // }
+            } catch{}
+            //If there is no conversion path return not convertable message
+            throw new ArgumentException($"Can't convert {from} to {to}");
         }
         //Converts Unit/Unit to Unit/Unit
         public double Convert(string fromFirst, string toFirst, string fromSecond, string toSecond, double number) => number * Convert(fromFirst, toFirst, 1) / Convert(fromSecond, toSecond, 1);
