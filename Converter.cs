@@ -17,29 +17,11 @@ namespace UnitConverter
             try
             {
                 //Get Unit types
-                string fromType = "";
-                string fromTypePer = "";
-                if (from.Split("countper").Length == 2)
-                {
-                    fromType = _config.First(x => x.Value.ContainsKey(from.Split("countper")[0])).Key;
-                    fromTypePer = _config.First(x => x.Value.ContainsKey(from.Split("countper")[1])).Key;
-                }
-                else
-                {
-                    fromType = _config.First(x => x.Value.ContainsKey(from)).Key;
-                }
+                string fromType = _config.First(x => x.Value.ContainsKey(from.Split("countper")[0])).Key;
+                string fromTypePer = (from.Split("countper").Length == 2) ? _config.First(x => x.Value.ContainsKey(from.Split("countper")[1])).Key : "";
 
-                string toType = "";
-                string toTypePer = "";
-                if (to.Split("countper").Length == 2)
-                {
-                    toType = _config.First(x => x.Value.ContainsKey(to.Split("countper")[0])).Key;
-                    toTypePer = _config.First(x => x.Value.ContainsKey(to.Split("countper")[1])).Key;
-                }
-                else
-                {
-                    toType = _config.First(x => x.Value.ContainsKey(to)).Key;
-                }
+                string toType = _config.First(x => x.Value.ContainsKey(to.Split("countper")[0])).Key;
+                string toTypePer = (to.Split("countper").Length == 2) ? _config.First(x => x.Value.ContainsKey(to.Split("countper")[1])).Key : "";
 
                 //Advanced unit conversion
                 if (_config.ContainsKey($"{fromType}countto{toType}") ||
