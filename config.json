@@ -14,18 +14,18 @@
         "inch": 1,
         "feet": 12
     },
-    "metrictoimperial": {
+    "metriccounttoimperial": {
         "inch": 1,
         "meter": 0.0254
     },
     "ampere": {
         "ampere": 1
     },
-    "coulombpersecond": {
-        "coulombpersecond": 1
+    "coulomb": {
+        "coulomb": 1
     },
-    "amperetocoulombpersecond": {
+    "amperecounttocoulombcountpertime": {
         "ampere": 1,
-        "coulombpersecond": 1
+        "coulombcountpersecond": 1
     }
 }
