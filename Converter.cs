@@ -9,10 +9,16 @@ namespace UnitConverter
     {
         private Dictionary<string, Dictionary<string, double>> _config { get; set; }
 
+        public Converter ChangeConfig(string config)
+        {
+            return new Converter(config);
+        }
+
         public Converter(string config)
         {
             _config = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, double>>>(config);
         }
+        private Converter() {}
 
         // Core of converter
         // Does basic convert and conversion between units of different type
